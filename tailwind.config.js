@@ -20,10 +20,11 @@ export default {
         cyan: "hsl(180, 66%, 49%)",
       },
       maxWidth: {
-        intro: "28ch"
+        introMobile: "28ch",
+        introDesktop: "40ch"
       },
       backgroundImage: {
-        desktopFormBg: "url('./'bg-shorten-desktop.svg)",
+        desktopFormBg: "url('./bg-shorten-desktop.svg')",
         desktopBoostBg: "url('./bg-boost-desktop.svg')",
         mobileBoostBg: "url('./bg-boost-mobile.svg')",
         mobileFormBg: "url('./bg-shorten-mobile.svg ')",
