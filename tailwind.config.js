@@ -21,7 +21,8 @@ export default {
       },
       maxWidth: {
         introMobile: "28ch",
-        introDesktop: "40ch"
+        introDesktop: "40ch",
+        advancedDesktop: "45ch"
       },
       backgroundImage: {
         desktopFormBg: "url('./bg-shorten-desktop.svg')",
