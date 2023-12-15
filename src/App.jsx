@@ -1,7 +1,11 @@
 
+import { useState } from 'react'
+import { createPortal } from 'react-dom';
+import MobileMenu from './MobileMenu'
 import './App.css'
 
 function App() {
+  const [menuOpen, setMenuOpen] = useState(false);
 
   return (
     <>
@@ -20,11 +24,12 @@ function App() {
             <a href="#" className='px-6 py-3 ml-8 text-white bg-cyan rounded-full'>Sign Up</a>
           </div>
         </div>
-        <button className='lg:hidden'>
+        {menuOpen && createPortal(<MobileMenu isOpen={menuOpen}/>, document.getElementById("mobile-menu-portal"))}
+        <button className='lg:hidden' onClick={() => {setMenuOpen(!menuOpen)}}>
           <img src="./icon-hamburger.svg" alt="mobile menu"/>
         </button>
       </header>
-      <main className='text-lg'>
+      <main className='text-lg lg:mt-16'>
         <section className='relative z-10 flex flex-col items-center'>
           <div className='lg:flex lg:flex-row-reverse'>
             <div>
@@ -41,7 +46,7 @@ function App() {
             <button className='px-4 py-2 text-lg text-white font-bold bg-cyan rounded-md lg:px-8 lg:py-4'>Shorten it!</button>
           </form>
         </section>
-        <section className='relative left-1/2 -z-1 w-screen -translate-x-1/2 flex flex-col gap-24 bg-grayishBlue px-4 py-16 text-center'>
+        <section className='relative left-1/2 -z-1 flex flex-col gap-24 bg-grayishBlue px-4 py-16 w-screen text-center -translate-x-1/2 lg:py-32'>
           <div className='mt-28 lg:flex lg:flex-col lg:items-center'>
             <h2 className='mb-4 text-2xl text-darkBlue font-bold lg:text-4xl'>Advanced Stadistics</h2>
             <p className='text-base text-violet1 lg:max-w-advancedDesktop lg:text-lg'>Track how your links are performing across the web with our advanced stadistics dashboard</p>
@@ -76,7 +81,7 @@ function App() {
             </div>
           </div>
         </section>
-        <section className='relative left-1/2 -z-2 flex flex-col justify-center items-center gap-4 px-4 py-24 w-screen -translate-x-1/2 bg-violet2 bg-mobileBoostBg bg-no-repeat bg-cover bg-right bg-origin-padding lg:bg-desktopBoostBg'>
+        <section className='relative left-1/2 -z-2 flex flex-col justify-center items-center gap-4 px-4 py-24 w-screen -translate-x-1/2 bg-violet2 bg-mobileBoostBg bg-no-repeat bg-cover bg-right bg-origin-padding lg:bg-desktopBoostBg lg:py-16'>
           <h3 className='text-2xl text-white font-bold lg:text-4xl'>Boost your links today</h3>
           <a className='px-12 py-3 text-white font-bold bg-cyan rounded-full lg:px-12 lg:py-3' href="#">Get Started</a>
         </section>
