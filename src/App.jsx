@@ -1,11 +1,44 @@
 
-import { useState } from 'react'
+import { useState, useRef, useEffect, useCallback } from 'react'
 import { createPortal } from 'react-dom';
 import MobileMenu from './MobileMenu'
 import './App.css'
+import axios from 'axios';
 
 function App() {
-  const [menuOpen, setMenuOpen] = useState(false);
+  const [menuOpen, setMenuOpen] = useState(false)
+  const [linkList, setLinkList] = useState([])
+  const [inputValue, setInputValue] = useState(" ")
+  const inputRef = useRef(null)
+
+
+  const requestHandler = useCallback(() => {
+    const config = {
+      destination: inputValue,
+    }
+
+    axios.post('https://api.rebrandly.com/v1/links', config,{
+      headers: {
+        'Content-Type': 'application/json',
+        'apiKey': "ed6a03f0d0b54f6d992f2e2c6bc1e640"
+      }
+    })
+    .then((res) => {
+      console.log(res)
+      console.log(inputValue)
+    })
+    .catch((err) => {
+      console.log(err)
+      console.log(inputValue)
+    })
+
+  }, [inputValue])
+
+
+  useEffect(() => {
+    requestHandler;
+  }, [requestHandler])
+
 
   return (
     <>
@@ -42,8 +75,8 @@ function App() {
             </div>
           </div>
           <form className='relative -bottom-20 flex flex-col gap-6 p-6 bg-mobileFormBg bg-no-repeat bg-right-top bg-origin-padding bg-violet2 rounded-md lg:bg-desktopFormBg lg:flex-row lg:justify-center lg:w-full lg:p-12 lg:bg-left lg:bg-cover'>
-            <input className="text-lg px-4 py-2 bg-white rounded lg:w-9/12" type="text" placeholder='Shorten a link here...'/>
-            <button className='px-4 py-2 text-lg text-white font-bold bg-cyan rounded-md lg:px-8 lg:py-4'>Shorten it!</button>
+            <input className="text-lg px-4 py-2 bg-white rounded lg:w-9/12" type="text" placeholder='Shorten a link here...' ref={inputRef} onChange={() => {setInputValue(inputRef.current.value)}}/>
+            <button className='px-4 py-2 text-lg text-white font-bold bg-cyan rounded-md lg:px-8 lg:py-4' type='button' onClick={requestHandler}>Shorten it!</button>
           </form>
         </section>
         <section className='relative left-1/2 -z-1 flex flex-col gap-24 bg-grayishBlue px-4 py-16 w-screen text-center -translate-x-1/2 lg:py-32'>

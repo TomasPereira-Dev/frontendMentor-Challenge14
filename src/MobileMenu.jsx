@@ -17,7 +17,7 @@ const MobileMenu = ({isOpen}) => {
 
     return (
         <>
-            <div className={`absolute top-20 left-8 z-20 flex flex-col items-center gap-4 text-white text-lg font-bold py-10 px-4 w-10/12 bg-violet2 ${visibility} rounded-lg`} >
+            <div className={`absolute top-20 left-8 z-20 flex flex-col items-center gap-4 text-white text-lg font-bold py-10 px-4 w-10/12 bg-violet2 ${visibility} rounded-lg md:left-16`} >
                 <ul className="flex flex-col items-center gap-6 text-white pb-6 w-full border-b-[1px] border-b-violet1">
                     <li><a href="#">Features</a></li>
                     <li><a href="#">Pricing</a></li>
