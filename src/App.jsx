@@ -1,16 +1,28 @@
-
 import { useState, useRef, useEffect, useCallback } from 'react'
 import { createPortal } from 'react-dom';
 import MobileMenu from './MobileMenu'
 import './App.css'
 import axios from 'axios';
+import { nanoid } from 'nanoid';
 
 function App() {
+
+  const initialFunction = () => {
+    const initialLinkList = localStorage.getItem("link list")
+    if(initialLinkList === null){
+      const initialItem = JSON.stringify([])
+      localStorage.setItem("link list", initialItem)
+      return []
+    }
+    return JSON.parse(initialLinkList)
+  }
+
   const [menuOpen, setMenuOpen] = useState(false)
-  const [linkList, setLinkList] = useState([])
+  const [linkList, setLinkList] = useState(initialFunction)
   const [inputValue, setInputValue] = useState(" ")
   const inputRef = useRef(null)
-
+  const newJson = JSON.stringify(linkList)
+  
 
   const requestHandler = useCallback(() => {
     const config = {
@@ -21,24 +33,42 @@ function App() {
       headers: {
         'Content-Type': 'application/json',
         'apiKey': "ed6a03f0d0b54f6d992f2e2c6bc1e640"
-      }
+      },
     })
     .then((res) => {
-      console.log(res)
-      console.log(inputValue)
+      const linkData = {
+        id: nanoid(),
+        longLink: `${inputValue}`,
+        shortenLink: `${res.data.shortUrl}`
+      }
+      setLinkList([...linkList, linkData])
     })
     .catch((err) => {
       console.log(err)
-      console.log(inputValue)
     })
 
-  }, [inputValue])
+  }, [inputValue, linkList])
 
+  const updateStorage = useCallback((newJson) => {
+    localStorage.setItem("link list", newJson)
+  }, [])
+
+  const mappedLinkList = linkList.map(item => 
+    <li className='flex flex-col items-start p-4 text-start text-darkBlue bg-white rounded-md md:flex-row md:justify-between md:items-center' key={item.id}>
+      <div className='pb-2 border-b-[1px] w-full md:w-auto md:border-b-0'>
+        <p className=''>{item.longLink}</p>
+      </div>
+      <div className='flex flex-col gap-2 py-2 w-full md:flex-row md:w-auto'>
+        <p className='text-cyan'>{item.shortenLink}</p>
+        <button className='text-center px-2 py-1 w-full text-white font-bold bg-cyan rounded md:w-auto' type='button'>Copy</button>
+      </div>
+    </li>
+  )
 
   useEffect(() => {
     requestHandler;
-  }, [requestHandler])
-
+    updateStorage(newJson);
+  }, [requestHandler, updateStorage, newJson])
 
   return (
     <>
@@ -74,12 +104,16 @@ function App() {
               <a className='mt-8 px-8 py-2 text-lg text-white font-bold bg-cyan rounded-full'>Get Started</a>
             </div>
           </div>
-          <form className='relative -bottom-20 flex flex-col gap-6 p-6 bg-mobileFormBg bg-no-repeat bg-right-top bg-origin-padding bg-violet2 rounded-md lg:bg-desktopFormBg lg:flex-row lg:justify-center lg:w-full lg:p-12 lg:bg-left lg:bg-cover'>
+          <div className='relative -bottom-20 flex flex-col gap-6 p-6 w-11/12 bg-mobileFormBg bg-no-repeat bg-right-top bg-origin-padding bg-violet2 rounded-md  lg:bg-desktopFormBg lg:flex-row lg:justify-center lg:w-full lg:p-12 lg:bg-left lg:bg-cover'>
             <input className="text-lg px-4 py-2 bg-white rounded lg:w-9/12" type="text" placeholder='Shorten a link here...' ref={inputRef} onChange={() => {setInputValue(inputRef.current.value)}}/>
             <button className='px-4 py-2 text-lg text-white font-bold bg-cyan rounded-md lg:px-8 lg:py-4' type='button' onClick={requestHandler}>Shorten it!</button>
-          </form>
+          </div>
         </section>
         <section className='relative left-1/2 -z-1 flex flex-col gap-24 bg-grayishBlue px-4 py-16 w-screen text-center -translate-x-1/2 lg:py-32'>
+          <ul className='grid grid-rows-1 gap-4 mt-8'>
+            {mappedLinkList}
+          </ul>
+
           <div className='mt-28 lg:flex lg:flex-col lg:items-center'>
             <h2 className='mb-4 text-2xl text-darkBlue font-bold lg:text-4xl'>Advanced Stadistics</h2>
             <p className='text-base text-violet1 lg:max-w-advancedDesktop lg:text-lg'>Track how your links are performing across the web with our advanced stadistics dashboard</p>
