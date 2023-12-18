@@ -20,6 +20,7 @@ function App() {
   const [menuOpen, setMenuOpen] = useState(false)
   const [linkList, setLinkList] = useState(initialFunction)
   const [inputValue, setInputValue] = useState(" ")
+  const buttonRef = useRef(null)
   const inputRef = useRef(null)
   const newJson = JSON.stringify(linkList)
   
@@ -54,13 +55,15 @@ function App() {
   }, [])
 
   const mappedLinkList = linkList.map(item => 
-    <li className='flex flex-col items-start p-4 text-start text-darkBlue bg-white rounded-md md:flex-row md:justify-between md:items-center' key={item.id}>
-      <div className='pb-2 border-b-[1px] w-full md:w-auto md:border-b-0'>
-        <p className=''>{item.longLink}</p>
+    <li className='flex flex-col items-start p-4 text-start text-darkBlue bg-white rounded-md md:flex-row md:justify-between md:items-center md:px-8' key={item.id}>
+      <div className='pb-2 border-b-[1px] w-full md:w-auto md:border-b-0 md:pb-0'>
+        <p>{item.longLink}</p>
       </div>
-      <div className='flex flex-col gap-2 py-2 w-full md:flex-row md:w-auto'>
+      <div className='flex flex-col gap-2 py-2 w-full md:flex-row md:items-center md:w-auto'>
         <p className='text-cyan'>{item.shortenLink}</p>
-        <button className='text-center px-2 py-1 w-full text-white font-bold bg-cyan rounded md:w-auto' type='button'>Copy</button>
+        <button className='text-center px-2 py-1 w-full text-white font-bold
+         bg-cyan rounded hover:brightness-110 ease-in-out active:bg-violet2 
+         active:content-none md:w-auto md:px-6 md:py-2' type='button' ref={buttonRef} onClick={(e) =>{navigator.clipboard.writeText(item.shortenLink); console.log(e.buttonRef)}}>Copy</button>
       </div>
     </li>
   )
@@ -77,14 +80,14 @@ function App() {
         <div className='hidden justify-between items-center w-full text-violet1 font-bold lg:flex'>
           <nav>
             <ul className='flex justify-between gap-6'>
-              <li>Features</li>
-              <li>Pricing</li>
-              <li>Resources</li>
+              <li><a href="#">Features</a></li>
+              <li><a href="#">Pricing</a></li>
+              <li><a href="#">Resources</a></li>
             </ul>
           </nav>
           <div>
             <a href="#">Login</a>
-            <a href="#" className='px-6 py-3 ml-8 text-white bg-cyan rounded-full'>Sign Up</a>
+            <a href="#" className='px-6 py-3 ml-8 text-white bg-cyan rounded-full hover:brightness-110 ease-in-out'>Sign Up</a>
           </div>
         </div>
         {menuOpen && createPortal(<MobileMenu isOpen={menuOpen}/>, document.getElementById("mobile-menu-portal"))}
@@ -101,19 +104,18 @@ function App() {
             <div className='flex flex-col items-center lg:items-start'>
               <h1 className='mt-4 text-4xl text-darkBlue text-center font-bold lg:text-7xl lg:text-left'>More than just shorter links</h1>
               <p className='mt-4 text-lg text-gray text-center max-w-introMobile lg:text-xl lg:text-left lg:max-w-introDesktop'>Build your brand&apos;s recognition and get detailed insights on how your links are performing.</p>
-              <a className='mt-8 px-8 py-2 text-lg text-white font-bold bg-cyan rounded-full'>Get Started</a>
+              <a className='mt-8 px-8 py-2 text-lg text-white font-bold bg-cyan rounded-full hover:brightness-110 ease-in-out'>Get Started</a>
             </div>
           </div>
           <div className='relative -bottom-20 flex flex-col gap-6 p-6 w-11/12 bg-mobileFormBg bg-no-repeat bg-right-top bg-origin-padding bg-violet2 rounded-md  lg:bg-desktopFormBg lg:flex-row lg:justify-center lg:w-full lg:p-12 lg:bg-left lg:bg-cover'>
-            <input className="text-lg px-4 py-2 bg-white rounded lg:w-9/12" type="text" placeholder='Shorten a link here...' ref={inputRef} onChange={() => {setInputValue(inputRef.current.value)}}/>
-            <button className='px-4 py-2 text-lg text-white font-bold bg-cyan rounded-md lg:px-8 lg:py-4' type='button' onClick={requestHandler}>Shorten it!</button>
+            <input className="text-lg px-4 py-2 bg-white outline-none rounded lg:w-9/12" type="text" placeholder='Shorten a link here...' ref={inputRef} onChange={() => {setInputValue(inputRef.current.value)}}/>
+            <button className='px-4 py-2 text-lg text-white font-bold bg-cyan rounded-md lg:px-8 lg:py-4 hover:brightness-110 ease-in-out' type='button' onClick={requestHandler}>Shorten it!</button>
           </div>
         </section>
         <section className='relative left-1/2 -z-1 flex flex-col gap-24 bg-grayishBlue px-4 py-16 w-screen text-center -translate-x-1/2 lg:py-32'>
-          <ul className='grid grid-rows-1 gap-4 mt-8'>
+          <ul className='grid grid-rows-1 items-center gap-4 mt-8 lg:self-center lg:w-10/12'>
             {mappedLinkList}
           </ul>
-
           <div className='mt-28 lg:flex lg:flex-col lg:items-center'>
             <h2 className='mb-4 text-2xl text-darkBlue font-bold lg:text-4xl'>Advanced Stadistics</h2>
             <p className='text-base text-violet1 lg:max-w-advancedDesktop lg:text-lg'>Track how your links are performing across the web with our advanced stadistics dashboard</p>
@@ -150,7 +152,7 @@ function App() {
         </section>
         <section className='relative left-1/2 -z-2 flex flex-col justify-center items-center gap-4 px-4 py-24 w-screen -translate-x-1/2 bg-violet2 bg-mobileBoostBg bg-no-repeat bg-cover bg-right bg-origin-padding lg:bg-desktopBoostBg lg:py-16'>
           <h3 className='text-2xl text-white font-bold lg:text-4xl'>Boost your links today</h3>
-          <a className='px-12 py-3 text-white font-bold bg-cyan rounded-full lg:px-12 lg:py-3' href="#">Get Started</a>
+          <a className='px-12 py-3 text-white font-bold bg-cyan rounded-full lg:px-12 lg:py-3 hover:brightness-110 hover:delay-150 ease-in-out' href="#">Get Started</a>
         </section>
       </main>
       <footer className='relative -z-3 left-1/2 w-screen -translate-x-1/2  px-4 py-12 bg-violet3 lg:flex-row lg:justify-between lg:items-start'>
@@ -159,35 +161,35 @@ function App() {
           <div className='grid grid-rows-4 gap-4 text-center lg:grid-rows-1 lg:grid-cols-4 lg:text-left'>
             <ul className='leading-8'>
               <h3 className='mb-4 text-white font-bold'>Features</h3>
-              <li className='text-gray'>Link shortening</li>
-              <li className='text-gray'>Branded Links</li>
-              <li className='text-gray'>Analytics</li>
+              <li className='text-gray'><a className='hover:text-cyan' href="#">Link shortening</a></li>
+              <li className='text-gray'><a className='hover:text-cyan' href="#">Branded Links</a></li>
+              <li className='text-gray'><a className='hover:text-cyan' href="#">Analytics</a></li>
             </ul>
             <ul className='leading-8'>
               <h3 className='mb-4 text-white font-bold'>Resources</h3>
-              <li className='text-gray'>Blog</li>
-              <li className='text-gray'>Developers</li>
-              <li className='text-gray'>Support</li>
+              <li className='text-gray'><a className='hover:text-cyan' href="#">Blog</a></li>
+              <li className='text-gray'><a className='hover:text-cyan' href="#">Developers</a></li>
+              <li className='text-gray'><a className='hover:text-cyan' href="#">Support</a></li>
             </ul>
             <ul className='leading-8'>
               <h3 className='mb-4 text-white font-bold'>Company</h3>
-              <li className='text-gray'>About</li>
-              <li className='text-gray'>Our Team</li>
-              <li className='text-gray'>Careers</li>
-              <li className='text-gray'>Contact</li>
+              <li className='text-gray'><a className='hover:text-cyan' href="#">About</a></li>
+              <li className='text-gray'><a className='hover:text-cyan' href="#">Our Team</a></li>
+              <li className='text-gray'><a className='hover:text-cyan' href="#">Careers</a></li>
+              <li className='text-gray'><a className='hover:text-cyan' href="#">Contact</a></li>
             </ul>
             <div className='flex justify-center gap-6 mt-6'>
               <div>
-                <img src="./icon-facebook.svg" alt="facebook icon"/>
+                <a href="#"><img src="./icon-facebook.svg" alt="facebook icon"/></a>
               </div>
               <div>
-                <img src="./icon-twitter.svg" alt="twitter icon"/>
+                <a href="#"><img src="./icon-twitter.svg" alt="twitter icon"/></a>
               </div>
               <div>
-                <img src="./icon-pinterest.svg" alt="pinterest icon"/>
+                <a href="#"><img src="./icon-pinterest.svg" alt="pinterest icon"/></a>
               </div>
               <div>
-                <img src="./icon-instagram.svg" alt="instagram icon"/>
+                <a href="#"><img src="./icon-instagram.svg" alt="instagram icon"/></a>
               </div>
             </div>
           </div>
