@@ -104,7 +104,7 @@ function App() {
       <main className='text-lg mt-8 lg:mt-24'>
         <section className='relative z-10 flex flex-col items-center'>
           <div className='flex flex-col gap-8 lg:flex lg:flex-row-reverse'>
-            <div className='relative scale-125 -right-20 md:transform-none md:right-0 lg:scale-150 lg:-right-36'>
+            <div>
               <img src="./illustration-working.svg" alt="a illustration of someone working"/>
             </div>
             <div className='flex flex-col items-center lg:items-start'>
