@@ -1,12 +1,11 @@
 import { useState, useRef, useEffect, useCallback } from 'react'
-import { createPortal } from 'react-dom';
+import { createPortal } from 'react-dom'
 import MobileMenu from './MobileMenu'
 import './App.css'
-import axios from 'axios';
-import { nanoid } from 'nanoid';
+import axios from 'axios'
+import { nanoid } from 'nanoid'
 
 function App() {
-
   const initialFunction = () => {
     const initialLinkList = localStorage.getItem("link list")
     if(initialLinkList === null){
@@ -20,10 +19,8 @@ function App() {
   const [menuOpen, setMenuOpen] = useState(false)
   const [linkList, setLinkList] = useState(initialFunction)
   const [inputValue, setInputValue] = useState(" ")
-  const buttonRef = useRef(null)
   const inputRef = useRef(null)
   const newJson = JSON.stringify(linkList)
-  
 
   const requestHandler = useCallback(() => {
     const config = {
@@ -47,7 +44,6 @@ function App() {
     .catch((err) => {
       console.log(err)
     })
-
   }, [inputValue, linkList])
 
   const updateStorage = useCallback((newJson) => {
@@ -60,17 +56,17 @@ function App() {
         <p>{item.longLink}</p>
       </div>
       <div className='flex flex-col gap-2 py-2 w-full md:flex-row md:items-center md:w-auto'>
-        <p className='text-cyan'>{item.shortenLink}</p>
+        <a href={item.shortenLink} className='text-cyan'>{item.shortenLink}</a>
         <button className='text-center px-2 py-1 w-full text-white font-bold
          bg-cyan rounded hover:brightness-110 ease-in-out active:bg-violet2 
-         active:content-none md:w-auto md:px-6 md:py-2' type='button' ref={buttonRef} onClick={(e) =>{navigator.clipboard.writeText(item.shortenLink); console.log(e.buttonRef)}}>Copy</button>
+         active:content-none md:w-auto md:px-6 md:py-2' type='button' onClick={() =>{navigator.clipboard.writeText(item.shortenLink)}}>Copy</button>
       </div>
     </li>
   )
 
   useEffect(() => {
-    requestHandler;
-    updateStorage(newJson);
+    requestHandler
+    updateStorage(newJson)
   }, [requestHandler, updateStorage, newJson])
 
   return (
@@ -95,13 +91,13 @@ function App() {
           <img src="./icon-hamburger.svg" alt="mobile menu"/>
         </button>
       </header>
-      <main className='text-lg lg:mt-16'>
+      <main className='text-lg mt-8 lg:mt-32'>
         <section className='relative z-10 flex flex-col items-center'>
           <div className='lg:flex lg:flex-row-reverse'>
-            <div>
+            <div className='relative scale-125 -right-20 md:transform-none md:right-0 lg:scale-150 lg:-right-36'>
               <img src="./illustration-working.svg" alt="a illustration of someone working"/>
             </div>
-            <div className='flex flex-col items-center lg:items-start'>
+            <div className='flex flex-col items-center mt-12 lg:items-start'>
               <h1 className='mt-4 text-4xl text-darkBlue text-center font-bold lg:text-7xl lg:text-left'>More than just shorter links</h1>
               <p className='mt-4 text-lg text-gray text-center max-w-introMobile lg:text-xl lg:text-left lg:max-w-introDesktop'>Build your brand&apos;s recognition and get detailed insights on how your links are performing.</p>
               <a className='mt-8 px-8 py-2 text-lg text-white font-bold bg-cyan rounded-full hover:brightness-110 ease-in-out'>Get Started</a>
