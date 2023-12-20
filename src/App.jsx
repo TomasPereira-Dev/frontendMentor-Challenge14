@@ -19,31 +19,41 @@ function App() {
   const [menuOpen, setMenuOpen] = useState(false)
   const [linkList, setLinkList] = useState(initialFunction)
   const [inputValue, setInputValue] = useState(" ")
+  const [alertOutline, setAlertOutline] = useState("outline-none")
+  const [errorMessage, setErrorMessage] = useState (" ")
   const inputRef = useRef(null)
   const newJson = JSON.stringify(linkList)
 
   const requestHandler = useCallback(() => {
-    const config = {
-      destination: inputValue,
-    }
-
-    axios.post('https://api.rebrandly.com/v1/links', config,{
-      headers: {
-        'Content-Type': 'application/json',
-        'apiKey': "ed6a03f0d0b54f6d992f2e2c6bc1e640"
-      },
-    })
-    .then((res) => {
-      const linkData = {
-        id: nanoid(),
-        longLink: `${inputValue}`,
-        shortenLink: `${res.data.shortUrl}`
+    const regex = /https:\/\/w+\.[A-Za-z0-9]+\./i;
+    if(inputValue === " " || !regex.test(inputValue)){
+      setAlertOutline("outline-red caret-red placeholder:text-red")
+      setErrorMessage("Please, add a valid link")
+    }else{
+      const config = {
+        destination: inputValue,
       }
-      setLinkList([...linkList, linkData])
-    })
-    .catch((err) => {
-      console.log(err)
-    })
+
+      axios.post('https://api.rebrandly.com/v1/links', config,{
+        headers: {
+          'Content-Type': 'application/json',
+          'apiKey': "ed6a03f0d0b54f6d992f2e2c6bc1e640"
+        },
+      })
+      .then((res) => {
+        const linkData = {
+          id: nanoid(),
+          longLink: `${inputValue}`,
+          shortenLink: `${res.data.shortUrl}`
+        }
+        setLinkList([...linkList, linkData])
+      })
+      .catch((err) => {
+        setAlertOutline("outline-red caret-red placeholder:text-red placeholder:opacity-50")
+        setErrorMessage(err)
+        console.log(err)
+      })
+    }
   }, [inputValue, linkList])
 
   const updateStorage = useCallback((newJson) => {
@@ -53,10 +63,10 @@ function App() {
   const mappedLinkList = linkList.map(item => 
     <li className='flex flex-col items-start p-4 text-start text-darkBlue bg-white rounded-md md:flex-row md:justify-between md:items-center md:px-8' key={item.id}>
       <div className='pb-2 border-b-[1px] w-full md:w-auto md:border-b-0 md:pb-0'>
-        <p>{item.longLink}</p>
+        <a href={item.longLink} target='_blank' rel='noreferrer'>{item.longLink}</a>
       </div>
       <div className='flex flex-col gap-2 py-2 w-full md:flex-row md:items-center md:w-auto'>
-        <a href={item.shortenLink} className='text-cyan'>{item.shortenLink}</a>
+        <a href={`https://${item.shortenLink}`} className='text-cyan' target='_blank' rel='noreferrer'>{`https://${item.shortenLink}`}</a>
         <button className='text-center px-2 py-1 w-full text-white font-bold
          bg-cyan rounded hover:brightness-110 ease-in-out active:bg-violet2 
          active:content-none md:w-auto md:px-6 md:py-2' type='button' onClick={() =>{navigator.clipboard.writeText(item.shortenLink)}}>Copy</button>
@@ -91,20 +101,21 @@ function App() {
           <img src="./icon-hamburger.svg" alt="mobile menu"/>
         </button>
       </header>
-      <main className='text-lg mt-8 lg:mt-32'>
+      <main className='text-lg mt-8 lg:mt-24'>
         <section className='relative z-10 flex flex-col items-center'>
-          <div className='lg:flex lg:flex-row-reverse'>
+          <div className='flex flex-col gap-8 lg:flex lg:flex-row-reverse'>
             <div className='relative scale-125 -right-20 md:transform-none md:right-0 lg:scale-150 lg:-right-36'>
               <img src="./illustration-working.svg" alt="a illustration of someone working"/>
             </div>
-            <div className='flex flex-col items-center mt-12 lg:items-start'>
+            <div className='flex flex-col items-center lg:items-start'>
               <h1 className='mt-4 text-4xl text-darkBlue text-center font-bold lg:text-7xl lg:text-left'>More than just shorter links</h1>
               <p className='mt-4 text-lg text-gray text-center max-w-introMobile lg:text-xl lg:text-left lg:max-w-introDesktop'>Build your brand&apos;s recognition and get detailed insights on how your links are performing.</p>
               <a className='mt-8 px-8 py-2 text-lg text-white font-bold bg-cyan rounded-full hover:brightness-110 ease-in-out'>Get Started</a>
             </div>
           </div>
-          <div className='relative -bottom-20 flex flex-col gap-6 p-6 w-11/12 bg-mobileFormBg bg-no-repeat bg-right-top bg-origin-padding bg-violet2 rounded-md  lg:bg-desktopFormBg lg:flex-row lg:justify-center lg:w-full lg:p-12 lg:bg-left lg:bg-cover'>
-            <input className="text-lg px-4 py-2 bg-white outline-none rounded lg:w-9/12" type="text" placeholder='Shorten a link here...' ref={inputRef} onChange={() => {setInputValue(inputRef.current.value)}}/>
+          <div className='relative -bottom-20 flex flex-col gap-10 p-6 w-11/12 bg-mobileFormBg bg-no-repeat bg-right-top bg-origin-padding bg-violet2 rounded-md  lg:bg-desktopFormBg lg:flex-row lg:justify-center lg:w-full lg:p-12 lg:bg-left lg:bg-cover'>
+            <input className={`text-lg px-4 py-2 bg-white outline ${alertOutline} rounded lg:w-9/12`} id='link-input' type="text" placeholder='Shorten a link here...' ref={inputRef} onChange={() => {setInputValue(inputRef.current.value)}}/>
+            <span className='absolute top-[40%] text-red italic opacity-90 lg:left-[6.5%] lg:top-3/4'>{errorMessage}</span>
             <button className='px-4 py-2 text-lg text-white font-bold bg-cyan rounded-md lg:px-8 lg:py-4 hover:brightness-110 ease-in-out' type='button' onClick={requestHandler}>Shorten it!</button>
           </div>
         </section>
