@@ -102,20 +102,20 @@ function App() {
         </button>
       </header>
       <main className='text-lg mt-8'>
-        <section className='relative z-10 flex flex-col items-center lg:pb-32'>
+        <section className='relative z-10 flex flex-col items-center pb-32'>
           <div className='flex flex-col gap-8 lg:flex lg:flex-row-reverse'>
             <div>
               <img src="./illustration-working.svg" alt="a illustration of someone working"/>
             </div>
             <div className='flex flex-col items-center lg:items-start'>
-              <h1 className='mt-4 text-4xl text-darkBlue text-center font-bold lg:text-7xl lg:text-left'>More than just shorter links</h1>
-              <p className='mt-4 text-lg text-gray text-center max-w-introMobile lg:text-xl lg:text-left lg:max-w-introDesktop'>Build your brand&apos;s recognition and get detailed insights on how your links are performing.</p>
+              <h1 className='mt-4 text-4xl text-darkBlue text-center font-bold leading-tight lg:text-7xl lg:text-left'>More than just shorter links</h1>
+              <p className='mt-2 text-lg text-gray text-center max-w-introMobile lg:text-xl lg:text-left lg:max-w-introDesktop'>Build your brand&apos;s recognition and get detailed insights on how your links are performing.</p>
               <a className='mt-8 px-8 py-2 text-lg text-white font-bold bg-cyan rounded-full hover:brightness-110 ease-in-out'>Get Started</a>
             </div>
           </div>
         </section>
-        <section className='relative left-1/2 -z-1 flex flex-col px-4 py-16 bg-grayishBlue w-screen text-center -translate-x-1/2'>
-          <div className='relative left-1/2 -top-32 -translate-x-1/2 max-w-screen-lg'>
+        <section className='relative left-1/2 -z-1 flex flex-col px-4 py-28 bg-grayishBlue w-screen text-center -translate-x-1/2'>
+          <div className='relative left-1/2 -top-44 -translate-x-1/2 max-w-screen-lg'>
             <div className='flex flex-col justify-center gap-10 p-6
             bg-mobileFormBg bg-no-repeat bg-right-top bg-origin-padding bg-violet2 rounded-md
             lg:flex-row lg:bg-desktopFormBg lg:p-12 lg:bg-left lg:bg-cover'>
@@ -123,11 +123,11 @@ function App() {
               <span className='absolute text-red italic opacity-90 lg:top-[23%] lg:left-[6.5%]'>{errorMessage}</span>
               <button className='px-4 py-2 text-lg text-white font-bold bg-cyan rounded-md lg:px-8 lg:py-4 hover:brightness-110 ease-in-out' type='button' onClick={requestHandler}>Shorten it!</button>
             </div>
-            <ul className='grid grid-rows-1 items-center gap-4 mt-8'>
+            <ul className='grid grid-rows-1 items-center gap-6 mt-8'>
               {mappedLinkList}
             </ul>
           </div>
-          <div className='lg:flex lg:flex-col lg:items-center'>
+          <div className='mb-24 lg:flex lg:flex-col lg:items-center'>
             <h2 className='mb-4 text-2xl text-darkBlue font-bold lg:text-4xl'>Advanced Stadistics</h2>
             <p className='text-base text-violet1 lg:max-w-advancedDesktop lg:text-lg'>Track how your links are performing across the web with our advanced stadistics dashboard</p>
           </div>
