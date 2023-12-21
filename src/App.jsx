@@ -101,8 +101,8 @@ function App() {
           <img src="./icon-hamburger.svg" alt="mobile menu"/>
         </button>
       </header>
-      <main className='text-lg mt-8 lg:mt-24'>
-        <section className='relative z-10 flex flex-col items-center'>
+      <main className='text-lg mt-8'>
+        <section className='relative z-10 flex flex-col items-center lg:pb-32'>
           <div className='flex flex-col gap-8 lg:flex lg:flex-row-reverse'>
             <div>
               <img src="./illustration-working.svg" alt="a illustration of someone working"/>
@@ -113,17 +113,21 @@ function App() {
               <a className='mt-8 px-8 py-2 text-lg text-white font-bold bg-cyan rounded-full hover:brightness-110 ease-in-out'>Get Started</a>
             </div>
           </div>
-          <div className='relative -bottom-20 flex flex-col gap-10 p-6 w-11/12 bg-mobileFormBg bg-no-repeat bg-right-top bg-origin-padding bg-violet2 rounded-md  lg:bg-desktopFormBg lg:flex-row lg:justify-center lg:w-full lg:p-12 lg:bg-left lg:bg-cover'>
-            <input className={`text-lg px-4 py-2 bg-white outline ${alertOutline} rounded lg:w-9/12`} id='link-input' type="text" placeholder='Shorten a link here...' ref={inputRef} onChange={() => {setInputValue(inputRef.current.value)}}/>
-            <span className='absolute top-[40%] text-red italic opacity-90 lg:left-[6.5%] lg:top-3/4'>{errorMessage}</span>
-            <button className='px-4 py-2 text-lg text-white font-bold bg-cyan rounded-md lg:px-8 lg:py-4 hover:brightness-110 ease-in-out' type='button' onClick={requestHandler}>Shorten it!</button>
-          </div>
         </section>
-        <section className='relative left-1/2 -z-1 flex flex-col gap-24 bg-grayishBlue px-4 py-16 w-screen text-center -translate-x-1/2 lg:py-32'>
-          <ul className='grid grid-rows-1 items-center gap-4 mt-8 lg:self-center lg:w-10/12'>
-            {mappedLinkList}
-          </ul>
-          <div className='mt-28 lg:flex lg:flex-col lg:items-center'>
+        <section className='relative left-1/2 -z-1 flex flex-col px-4 py-16 bg-grayishBlue w-screen text-center -translate-x-1/2'>
+          <div className='relative left-1/2 -top-32 -translate-x-1/2 max-w-screen-lg'>
+            <div className='flex flex-col justify-center gap-10 p-6
+            bg-mobileFormBg bg-no-repeat bg-right-top bg-origin-padding bg-violet2 rounded-md
+            lg:flex-row lg:bg-desktopFormBg lg:p-12 lg:bg-left lg:bg-cover'>
+              <input className={`text-lg px-4 py-2 bg-white outline ${alertOutline} rounded-md lg:w-9/12`} id='link-input' type="text" placeholder='Shorten a link here...' ref={inputRef} onChange={() => {setInputValue(inputRef.current.value)}}/>
+              <span className='absolute text-red italic opacity-90 lg:top-[23%] lg:left-[6.5%]'>{errorMessage}</span>
+              <button className='px-4 py-2 text-lg text-white font-bold bg-cyan rounded-md lg:px-8 lg:py-4 hover:brightness-110 ease-in-out' type='button' onClick={requestHandler}>Shorten it!</button>
+            </div>
+            <ul className='grid grid-rows-1 items-center gap-4 mt-8'>
+              {mappedLinkList}
+            </ul>
+          </div>
+          <div className='lg:flex lg:flex-col lg:items-center'>
             <h2 className='mb-4 text-2xl text-darkBlue font-bold lg:text-4xl'>Advanced Stadistics</h2>
             <p className='text-base text-violet1 lg:max-w-advancedDesktop lg:text-lg'>Track how your links are performing across the web with our advanced stadistics dashboard</p>
           </div>
