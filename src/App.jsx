@@ -48,10 +48,9 @@ function App() {
         }
         setLinkList([...linkList, linkData])
       })
-      .catch((err) => {
+      .catch(() => {
         setAlertOutline("outline-red caret-red placeholder:text-red placeholder:opacity-50")
-        setErrorMessage(err)
-        console.log(err)
+        setErrorMessage (`Max. links/month reached :(`)
       })
     }
   }, [inputValue, linkList])
