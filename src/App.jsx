@@ -120,7 +120,7 @@ function App() {
             bg-mobileFormBg bg-no-repeat bg-right-top bg-origin-padding bg-violet2 rounded-md
             lg:flex-row lg:bg-desktopFormBg lg:p-12 lg:bg-left lg:bg-cover'>
               <input className={`text-lg px-4 py-2 bg-white outline ${alertOutline} rounded-md lg:w-9/12`} id='link-input' type="text" placeholder='Shorten a link here...' ref={inputRef} onChange={() => {setInputValue(inputRef.current.value)}}/>
-              <span className='absolute text-red italic opacity-90 lg:top-[23%] lg:left-[6.5%]'>{errorMessage}</span>
+              <span className='absolute text-red italic opacity-90 lg:top-28 lg:left-[6.5%]'>{errorMessage}</span>
               <button className='px-4 py-2 text-lg text-white font-bold bg-cyan rounded-md lg:px-8 lg:py-4 hover:brightness-110 ease-in-out' type='button' onClick={requestHandler}>Shorten it!</button>
             </div>
             <ul className='grid grid-rows-1 items-center gap-6 mt-8'>
