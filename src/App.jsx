@@ -110,7 +110,7 @@ function App() {
             <div className='flex flex-col items-center lg:items-start'>
               <h1 className='mt-4 text-4xl text-darkBlue text-center font-bold leading-tight lg:text-7xl lg:text-left'>More than just shorter links</h1>
               <p className='mt-2 text-lg text-gray text-center max-w-introMobile lg:text-xl lg:text-left lg:max-w-introDesktop'>Build your brand&apos;s recognition and get detailed insights on how your links are performing.</p>
-              <a className='mt-8 px-8 py-2 text-lg text-white font-bold bg-cyan rounded-full hover:brightness-110 ease-in-out'>Get Started</a>
+              <a href='#' className='mt-8 px-8 py-2 text-lg text-white font-bold bg-cyan rounded-full hover:brightness-110 ease-in-out'>Get Started</a>
             </div>
           </div>
         </section>
