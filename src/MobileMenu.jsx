@@ -3,10 +3,11 @@ import { useCallback, useEffect, useState } from "react"
 /* eslint-disable react/prop-types */
 const MobileMenu = ({isOpen}) => {
 
+    const [isClosed, setIsClosed] = useState(false) 
     const [visibility, setVisibility] = useState("hidden")
 
     const visibilityHandler = useCallback(() => {
-        if (isOpen) {
+        if(isOpen) {
             setVisibility("block")
         }
     }, [isOpen])
